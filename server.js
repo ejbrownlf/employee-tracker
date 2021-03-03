@@ -77,7 +77,7 @@ function start() {
                 name: 'action',
             }
         ]).then(res => {
-            console.log(res.action)
+            
 
             //VIEW FUNCTIONS
             //view all employee information
@@ -87,7 +87,7 @@ function start() {
                 query += 'INNER JOIN role ON (role.id = employee.role_id) ';
                 query += 'INNER JOIN department ON (role.department_id = department.id) ';
                 query += 'ORDER BY employee.id';
-                console.log(query);
+                
                 connection.query(query, (err, result) => {
                     result.forEach(member => {
                         if (member.manager !== null) {
@@ -226,7 +226,6 @@ function start() {
                             let query = "Select id from employee where concat(first_name, ' ', last_name) = ?"
                             connection.query(query, [newRes.manager], (err, result) => {
                                 if (err) throw err;
-                                console.log(result)
 
                                 let managerID = result[0].id;
                                 let query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)"
@@ -303,7 +302,7 @@ function start() {
                      connection.query(query, [res.departments], (err, result) => {
                          if (err) throw err;
                          let departmentID = result[0].id;
-                         console.log(departmentID)
+                         
 
                          query = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
 
@@ -361,7 +360,7 @@ function start() {
 
                         query = "DELETE FROM department WHERE id = ?; DELETE from role WHERE department_id = ?"
 
-                        connection.query(query, [], (err, result) => {
+                        connection.query(query, [departmentID, departmentID], (err, result) => {
                             if (err) throw err;
 
                             console.log(`\n Removed Department: ${res.removeDepartment} and all associated role \n MAKE SURE YOU UPDATE YOUR EMPLOYEES OR REMOVE THEM! \n`)
@@ -416,7 +415,6 @@ function start() {
 
                     connection.query(query, [res.updatedManager], (err, result) => {
                         if (err) throw err;
-                        console.log(result)
 
                         let managerID = result[0].id;
 
@@ -454,7 +452,6 @@ function start() {
 
                     connection.query(query, [res.updatedRole], (err, result) => {
                         if (err) throw err;
-                        console.log(result)
 
                         const roleTitle = result[0].title.split(' ')
                         const roleID = result[0].id;
