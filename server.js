@@ -73,7 +73,7 @@ function start() {
             {
                 type: 'list',
                 message: 'What would you like to do?',
-                choices: ['View All Employees', 'View all departments', 'Add employee', 'Remove Employee', 'Update employee role', 'Update employee manager', 'View all roles', 'View employees by manager', 'Add role', 'Add Department', 'Remove department', 'Remove role', 'View total utilized budeget of a department', 'None'],
+                choices: ['View All Employees', 'View all departments', 'Add employee', 'Remove Employee', 'Update employee role', 'Update employee manager', 'View all roles', 'View employees by manager', 'Add Department', 'Add role', 'Remove department', 'Remove role', 'View total utilized budeget of a department', 'None'],
                 name: 'action',
             }
         ]).then(res => {
@@ -384,7 +384,7 @@ function start() {
                      let query = 'DELETE FROM role WHERE title = ?'
                      connection.query(query, [res.removeRole], (err, result) => {
                          if (err) throw err;
-                         console.log(`\n Removed Role: ${res.removeRole}  \n`)
+                         console.log(`\n Removed Role: ${res.removeRole}  \n MAKE SURE YOU UPDATE YOUR EMPLOYEES AND OR REMOVE FROM YOUR DATABASE \n`)
                          getRoles();
                          start();
                      })
@@ -456,7 +456,7 @@ function start() {
                         const roleTitle = result[0].title.split(' ')
                         const roleID = result[0].id;
 
-                        let query = "UPDATE employee SET role_id = ? WHERE concat(first_name, ' ', last_name) = ?"
+                        let query = "UPDATE employee SET role_id = ?, manager_id = 1 WHERE concat(first_name, ' ', last_name) = ?"
 
                         if(roleTitle.includes('Lead') || roleTitle.includes('Manager')) {
                             query = "UPDATE employee SET role_id = ?, manager_id = NULL WHERE concat(first_name, ' ', last_name) = ?"
